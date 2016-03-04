@@ -52,8 +52,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="ProgressAnnouncer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\CompressionControl.cs" />
+    <Compile Include="UI\Dispatcher.cs" />
+    <Compile Include="UI\DownloadControl.cs" />
+    <Compile Include="UI\DragDropControl.cs" />
+    <Compile Include="UI\ExtractionControl.cs" />
+    <Compile Include="UI\AcquisitionControl.cs" />
     <Compile Include="Workers\AcquisitionTask.cs" />
     <Compile Include="Workers\CompressionTask.cs" />
     <Compile Include="Workers\DownloadTask.cs" />

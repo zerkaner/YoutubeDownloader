@@ -38,9 +38,9 @@ namespace YouTubeDownloader.Workers {
     ///   Extract the audio as WAV from a MP4 video. 
     /// </summary>
     /// <param name="videofile">Path to the MP4 file.</param>
-    /// <returns>Boolean flag indicating success of operation.</returns>
-    private static bool ExtractAudioFromMp4(string videofile) {
-      if (!videofile.ToLower().EndsWith(".mp4")) return false; // Ensure MP4 file.
+    /// <returns>Path to the WAV file or 'null' in case of an error.</returns>
+    private static string ExtractAudioFromMp4(string videofile) {
+      if (!videofile.ToLower().EndsWith(".mp4")) return null; // Ensure MP4 file.
       
       // Build output file name and ensure existance of temporary directory.
       var filename = Path.GetFileNameWithoutExtension(videofile);
@@ -51,12 +51,12 @@ namespace YouTubeDownloader.Workers {
       var faad = new ProcessStartInfo {
         FileName = "utils\\faad.exe",
         WindowStyle = ProcessWindowStyle.Hidden,
-        Arguments = videofile+" -o "+wavFile
+        Arguments = "\""+videofile+"\" -o \""+wavFile+"\""
       };
       var faadProcess = Process.Start(faad);  // Try to start FAAD process.
-      if (faadProcess == null) return false;  // Abort on failure.
+      if (faadProcess == null) return null;   // Abort on failure.
       faadProcess.WaitForExit();              // Else wait for finish.
-      return true;
+      return wavFile;
     }
   }
 }

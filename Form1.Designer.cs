@@ -1,5 +1,5 @@
 ﻿namespace YouTubeDownloader {
-  partial class Form1 {
+  sealed partial class Form1 {
     /// <summary>
     /// Erforderliche Designervariable.
     /// </summary>
@@ -66,7 +66,6 @@
       this.textfieldLink.Size = new System.Drawing.Size(242, 20);
       this.textfieldLink.TabIndex = 1;
       this.textfieldLink.Text = "https://www.youtube.com/watch?v=VUb1p8fm7Ag";
-      this.textfieldLink.TextChanged += new System.EventHandler(this.textfieldLink_TextChanged);
       // 
       // buttonStart
       // 
@@ -76,7 +75,6 @@
       this.buttonStart.TabIndex = 3;
       this.buttonStart.Text = "Start";
       this.buttonStart.UseVisualStyleBackColor = true;
-      this.buttonStart.Click += new System.EventHandler(this.button1_Click);
       // 
       // label3
       // 
@@ -99,7 +97,6 @@
       this.panelWork.Controls.Add(this.progressDownload);
       this.panelWork.Controls.Add(this.label4);
       this.panelWork.Controls.Add(this.label3);
-      this.panelWork.Enabled = false;
       this.panelWork.Location = new System.Drawing.Point(11, 79);
       this.panelWork.Name = "panelWork";
       this.panelWork.Size = new System.Drawing.Size(320, 178);
@@ -246,7 +243,6 @@
       this.buttonAbort.TabIndex = 8;
       this.buttonAbort.Text = "Abbrechen";
       this.buttonAbort.UseVisualStyleBackColor = true;
-      this.buttonAbort.Click += new System.EventHandler(this.buttonAbort_Click);
       // 
       // progressDownload
       // 
@@ -275,7 +271,7 @@
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(110, 12);
       this.label7.TabIndex = 6;
-      this.label7.Text = "Version 0.03 - 16.02.2016";
+      this.label7.Text = "Version 0.03 - 04.03.2016";
       // 
       // panelSetup
       // 

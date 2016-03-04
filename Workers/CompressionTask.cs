@@ -38,9 +38,9 @@ namespace YouTubeDownloader.Workers {
     ///   Compress a WAV audio file as MP3.
     /// </summary>
     /// <param name="wavfile">The input WAV file.</param>
-    /// <returns>Compression success flag.</returns>
-    private static bool CompressWavToMp3(string wavfile) {
-      if (!wavfile.ToLower().EndsWith(".wav")) return false; // Abort on wrong file type.
+    /// <returns>Path to the output MP3.</returns>
+    private static string CompressWavToMp3(string wavfile) {
+      if (!wavfile.ToLower().EndsWith(".wav")) return null; // Abort on wrong file type.
 
       // Create target file name, save it optionally in an 'output' folder.
       var filename = Path.GetFileNameWithoutExtension(wavfile);
@@ -51,12 +51,12 @@ namespace YouTubeDownloader.Workers {
       var lame = new ProcessStartInfo {
         FileName = "utils\\lame.exe",
         WindowStyle = ProcessWindowStyle.Hidden,
-        Arguments = "--preset standard "+wavfile+" "+mp3File
+        Arguments = "--preset standard \""+wavfile+"\" \""+mp3File+"\""
       };        
       var lameProcess = Process.Start(lame);  // Start the LAME process.
-      if (lameProcess == null) return false;  // Abort on failure.
+      if (lameProcess == null) return null;   // Abort on failure.
       lameProcess.WaitForExit();              // Else wait for finish.
-      return true;
+      return mp3File;
     }
   }
 }

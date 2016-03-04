@@ -71,10 +71,11 @@ namespace YouTubeDownloader.Workers {
         var videoInfo = HttpUtility.HtmlDecode(reader.ReadToEnd());
         var videoParams = HttpUtility.ParseQueryString(videoInfo);
 
-        var lSec = int.Parse(videoParams["length_seconds"]);      
-
         videodata.Title = videoParams["title"];
-        videodata.Length = lSec/60 + ":"+ lSec%60;
+        var lSec = int.Parse(videoParams["length_seconds"]);
+        var secString = lSec%60+"";
+        if (secString.Length == 1) secString = "0"+secString;
+        videodata.Length = lSec/60 + ":"+ secString+" min";
 
         var streams = new Dictionary<string, string>();
 
@@ -106,9 +107,17 @@ namespace YouTubeDownloader.Workers {
           var address = new Uri(addr);
 
           var wc = new WebClient();
-          wc.OpenRead(address);
+          try {
+            wc.OpenRead(address);
+          }
+          catch (Exception ex) {
+            Console.WriteLine("[AcquisitionTask] Error: Video access denied!");
+            Console.WriteLine(ex);
+            return null;
+          }
+
           var bytesTotal= Convert.ToInt64( wc.ResponseHeaders["Content-Length"]);
-          videodata.Size = Math.Round((float)bytesTotal / (1024*1024), 2)+"";
+          videodata.Size = Math.Round((float)bytesTotal / (1024*1024), 2)+" MB";
           videodata.VideoUrl = address;
 
           // Success: Return data structure.
