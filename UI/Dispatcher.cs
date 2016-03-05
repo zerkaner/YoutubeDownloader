@@ -80,8 +80,6 @@ namespace YouTubeDownloader.UI {
       };
       _form = form;
 
-
-      _inputLink.Text = "https://www.youtube.com/watch?v=cxjw-w-V5k4";
       SwitchState(ProgramState.Reset);
     }
 

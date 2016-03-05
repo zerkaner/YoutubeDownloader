@@ -65,7 +65,6 @@
       this.textfieldLink.Name = "textfieldLink";
       this.textfieldLink.Size = new System.Drawing.Size(242, 20);
       this.textfieldLink.TabIndex = 1;
-      this.textfieldLink.Text = "https://www.youtube.com/watch?v=VUb1p8fm7Ag";
       // 
       // buttonStart
       // 
