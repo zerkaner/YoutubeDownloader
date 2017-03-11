@@ -1,4 +1,7 @@
-﻿namespace YouTubeDownloader {
+﻿using YouTubeDownloader.UserInterface;
+using YouTubeDownloader.Workers;
+
+namespace YouTubeDownloader {
   
   /// <summary>
   ///   Main window initialization code.
@@ -10,10 +13,10 @@
     ///   Create the controller classes and start the WPF.
     /// </summary>
     public MainWindow() {
-      var mainCtrl = new MainController();
-      var ifCtrl = new InterfaceController(mainCtrl);
+      var ctrl = new ProgramController();
+      var vm = new ViewModel(ctrl);
       InitializeComponent();
-      DataContext = ifCtrl;
+      DataContext = vm;
     }
   }
 }

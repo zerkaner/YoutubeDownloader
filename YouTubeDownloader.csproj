@@ -57,13 +57,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainWindow.cs" />
-    <Compile Include="Structures.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="UserInterface\HelperClasses.cs" />
+    <Compile Include="Workers\Acquisor.cs" />
+    <Compile Include="Workers\ProgramController.cs" />
+    <Compile Include="Workers\TaskWorker.cs" />
+    <Page Include="UserInterface\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="InterfaceController.cs" />
-    <Compile Include="MainController.cs" />
+    <Compile Include="UserInterface\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -94,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="CopyIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

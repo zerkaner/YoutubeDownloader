@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YouTubeDownloader"
+        xmlns:userInterface="clr-namespace:YouTubeDownloader.UserInterface"
         mc:Ignorable="d"
         Title="YouTube Downloader" Height="400" Width="444" ResizeMode="CanMinimize"
-        d:DataContext="{d:DesignInstance d:Type=local:InterfaceController, IsDesignTimeCreatable=True}">
-        <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+        d:DataContext="{d:DesignInstance d:Type=userInterface:ViewModel, IsDesignTimeCreatable=True}">
   <Window.Resources>
     <Style x:Key="Flat">
       <Setter Property="Control.Background" Value="{x:Null}" />
@@ -26,23 +25,27 @@
   </Window.Resources>
 
   <Grid Margin="0,0,2,0" >
-    <Button Content="abrufen" Margin="349,45,10,0" VerticalAlignment="Top"/>
     <Label Content="Schritt 1: Video-Link einfügen" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="178"/>
-    <TextBox HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287"/>
+    <TextBox HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287" Text="{Binding VideoLink}" />
     <Button HorizontalAlignment="Left" Margin="302,45,0,0" VerticalAlignment="Top" Style="{StaticResource Flat}" Command="{Binding InsertClipboard}" ToolTip="aus Zwischenablage einfügen">
       <Image Source="pack://application:,,,./CopyIcon.png" Width="16" Height="16"/>
     </Button>
+    <Button Content="abrufen" Margin="349,45,10,0" VerticalAlignment="Top" Command="{Binding FetchVideoData}"/>    
 
     <!-- Video informations frame. -->
-    <Label Margin=" 10,86,10,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding VideoTitle}"/>
-    <Image Margin=" 10,117,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="70" Width="125" Source="https://i.ytimg.com/vi/x-64CaD8GXw/hqdefault.jpg?custom=true&amp;w=168&amp;h=94&amp;stc=true&amp;jpg444=true&amp;jpgq=90&amp;sp=68&amp;sigh=uK_m3jr89fDSer2e6sU3w8Ie9G8"/>
-    <Grid  Margin="138,121,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="64" Width="171" >
+    <Label Margin=" 10,86,10,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding VideoInfo.Title}"/>
+    <Border Margin=" 10,117,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#909090" BorderThickness="1">
+      <Image Height="70" Width="125" Source="{Binding VideoInfo.CoverImage}" Stretch="Fill"/>
+    </Border>
+    <Grid  Margin="138,118,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="171">
       <Label Margin=" 0, 0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Uploader:"/>
-      <Label Margin=" 0,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Aufrufe:"/>
-      <Label Margin=" 0,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Länge:"/>
-      <Label Margin="54, 0,0,0" VerticalAlignment="Top" FontSize="10" Content="Dropkick Murphys"/>
-      <Label Margin="54,20,0,0" VerticalAlignment="Top" FontSize="10" Content="3467537"/>
-      <Label Margin="54,40,0,0" VerticalAlignment="Top" FontSize="10" Content="5:03 Minuten"/>
+      <Label Margin=" 0,17,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Aufrufe:"/>
+      <Label Margin=" 0,34,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Wertung:"/>
+      <Label Margin=" 0,51,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Länge:"/>
+      <Label Margin="54, 0,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Uploader}"/>
+      <Label Margin="54,17,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Views}"/>
+      <Label Margin="54,34,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Rating}"/>
+      <Label Margin="54,51,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Length}"/>
     </Grid>
     <Border Margin="0,117,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="66" Width="115" BorderBrush="#909090" BorderThickness="1" CornerRadius="5">
       <Grid Margin="0,  0,0,0" HorizontalAlignment="Left" Width="110">
