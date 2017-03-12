@@ -59,7 +59,6 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="UserInterface\HelperClasses.cs" />
     <Compile Include="Workers\Acquisor.cs" />
-    <Compile Include="Workers\ProgramController.cs" />
     <Compile Include="Workers\TaskWorker.cs" />
     <Page Include="UserInterface\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

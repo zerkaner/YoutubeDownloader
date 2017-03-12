@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Windows;
 using YouTubeDownloader.Workers;
 
 namespace YouTubeDownloader.UserInterface {
@@ -19,7 +20,6 @@ namespace YouTubeDownloader.UserInterface {
 
   public class ViewModel : ObservableObject {
 
-    private readonly ProgramController _controller;  // Program workflow controller.
     private readonly TaskWorker _taskWorker;
 
     //_________________________________________________________________________
@@ -84,13 +84,14 @@ namespace YouTubeDownloader.UserInterface {
     /// <summary>
     ///   Create a new user interface VM, setting up initial values.
     /// </summary>
-    /// <param name="ctrl">Main controller reference.</param>
-    internal ViewModel(ProgramController ctrl) {
-      _controller = ctrl;
+    /// <param name="prod">Production start disambiguation.</param>
+    internal ViewModel(bool prod) {
       _taskWorker = new TaskWorker();
       VideoInfo = new VideoInfoVm();
       SetupButtonCommands();
-      VideoLink = "https://www.youtube.com/watch?v=Dihka60wAmU";  // TODO Remove!
+      if (!prod) {
+        VideoLink = "https://www.youtube.com/watch?v=Dihka60wAmU";
+      }
     }
 
 
@@ -173,7 +174,8 @@ namespace YouTubeDownloader.UserInterface {
 
       InsertClipboard = new DelegateCommand(
         () => {
-          Debug.WriteLine("clicked");
+          VideoLink = Clipboard.GetText();
+          RaisePropertyChangedEvent("VideoLink");
           CancelProcess.Execute(null);
         },
         () => true

@@ -26,9 +26,17 @@
   </Window.Resources>
 
   <Grid Margin="0,0,2,0" >
-    <Label Content="Version 1.02" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFC3C3C3" FontSize="9"/>
+    <TextBlock HorizontalAlignment="Right" Margin="0,4,8,0" VerticalAlignment="Top" FontSize="9">
+      <Hyperlink x:Name="VersionLink" TextDecorations="None" NavigateUri="https://github.com/zerkaner/YoutubeDownloader/tree/master/CompiledProgram">Version 2.01
+        <Hyperlink.Style>
+          <Style TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
+            <Setter Property="Foreground" Value="#FFC3C3C3"/>
+          </Style>
+        </Hyperlink.Style>     
+      </Hyperlink>
+    </TextBlock>
     <Label Content="Schritt 1: Video-Link einfügen" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="178"/>
-    <TextBox HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287" Text="{Binding VideoLink}" />
+    <TextBox x:Name="LinkInputBox" HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" VerticalAlignment="Top" Width="287" Text="{Binding VideoLink}" MaxLines="1" />
     <Button HorizontalAlignment="Left" Margin="302,45,0,0" VerticalAlignment="Top" Style="{StaticResource Flat}" Command="{Binding InsertClipboard}" ToolTip="aus Zwischenablage einfügen">
       <Image Source="pack://application:,,,./UserInterface/CopyIcon.png" Width="16" Height="16"/>
     </Button>
