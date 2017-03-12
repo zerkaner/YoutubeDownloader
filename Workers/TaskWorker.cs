@@ -61,8 +61,7 @@ namespace YouTubeDownloader.Workers {
       worker.DoWork += (sender, e) => {
 
         // Build output file name and ensure existance of temporary directory.
-        var filename = Path.GetFileNameWithoutExtension(mp4File);
-        var wavFile = filename+".wav";
+        var wavFile = mp4File.Substring(0, mp4File.Length-4)+".wav";
 
         // Extract audio track from MP4 file and save it as WAV.
         _extrProcess = new Process {
@@ -116,8 +115,7 @@ namespace YouTubeDownloader.Workers {
       worker.DoWork += (sender, e) => {
         
         // Create file save name.
-        var filename = Path.GetFileNameWithoutExtension(wavFile);
-        var mp3File = filename+".mp3"; 
+        var mp3File = wavFile.Substring(0, wavFile.Length-4)+".mp3";
 
         // Extract audio track from MP4 file and save it as WAV.
         _comprProcess = new Process {

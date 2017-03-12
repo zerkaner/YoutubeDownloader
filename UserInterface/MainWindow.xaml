@@ -22,15 +22,17 @@
         </Trigger>
       </Style.Triggers>
     </Style>
+    <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
   </Window.Resources>
 
   <Grid Margin="0,0,2,0" >
+    <Label Content="Version 1.02" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#FFC3C3C3" FontSize="9"/>
     <Label Content="Schritt 1: Video-Link einfügen" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="178"/>
     <TextBox HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287" Text="{Binding VideoLink}" />
     <Button HorizontalAlignment="Left" Margin="302,45,0,0" VerticalAlignment="Top" Style="{StaticResource Flat}" Command="{Binding InsertClipboard}" ToolTip="aus Zwischenablage einfügen">
-      <Image Source="pack://application:,,,./CopyIcon.png" Width="16" Height="16"/>
+      <Image Source="pack://application:,,,./UserInterface/CopyIcon.png" Width="16" Height="16"/>
     </Button>
-    <Button Content="abrufen" Margin="349,45,10,0" VerticalAlignment="Top" Command="{Binding FetchVideoData}"/>    
+    <Button Content="abrufen" Margin="349,45,10,0" VerticalAlignment="Top" Command="{Binding FetchVideoData}"/>
 
     <!-- Video informations frame. -->
     <Label Margin=" 10,86,10,0" VerticalAlignment="Top" FontWeight="Bold" Content="{Binding VideoInfo.Title}"/>
@@ -47,38 +49,80 @@
       <Label Margin="54,34,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Rating}"/>
       <Label Margin="54,51,0,0" VerticalAlignment="Top" FontSize="10" Content="{Binding VideoInfo.Length}"/>
     </Grid>
-    <Border Margin="0,117,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="66" Width="115" BorderBrush="#909090" BorderThickness="1" CornerRadius="5">
+    <Border Margin="0,117,7,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="66" Width="115" BorderBrush="#909090" BorderThickness="1" CornerRadius="5" >
       <Grid Margin="0,  0,0,0" HorizontalAlignment="Left" Width="110">
-        <RadioButton Margin="6,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Content="360p"/>
-        <RadioButton Margin="6,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Content="720p"/>
+        <RadioButton Margin="6,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Content="360p" IsEnabled="False"/>
+        <RadioButton Margin="6,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Content="720p" IsEnabled="False"/>
         <Label Margin="10,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Content="Qualitätsauswahl"/>
-        <Label Margin=" 0,23,0,0" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="10" Width="55" Content="(12,8 MB)"/>
-        <Label Margin=" 0,41,0,0" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="10" Width="55" Content="(26,7 MB)"/>
+        <Label Margin=" 0,23,0,0" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="10" Width="55" Content="(12,8 MB)" IsEnabled="False"/>
+        <Label Margin=" 0,41,0,0" HorizontalAlignment="Right"  VerticalAlignment="Top" FontSize="10" Width="55" Content="(26,7 MB)" IsEnabled="False"/>
       </Grid>
     </Border>
 
     <!-- Processing frame. -->
-    <Grid Height="150" Margin="10,0,10,10" VerticalAlignment="Bottom">
-      <Grid Margin="10,5,10,0" VerticalAlignment="Top" IsHitTestVisible="True" Visibility="Hidden">
-        <Button HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" Width="145">
-          <TextBlock TextAlignment="Center">Tonspur herunterladen<LineBreak/>(MP3)</TextBlock>
-        </Button>
-        <Button Margin="0,0,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="145">
-          <TextBlock TextAlignment="Center">Video herunterladen<LineBreak/>(MP4)</TextBlock>
-        </Button>
+    <Border Height="150" Margin="8,0,8,8" VerticalAlignment="Bottom" BorderBrush="#909090" BorderThickness="1" CornerRadius="3">
+      <Grid>
+        
+        <!-- Download options frame (MP3 / MP4 selection). -->
+        <Grid Margin="10,15,10,0" VerticalAlignment="Top" Visibility="{Binding Path=DownloadOptionsVisible, Converter={StaticResource BoolToVisConverter}}">
+          <Button HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Top" Width="140" Command="{Binding DownloadAudio}">
+            <TextBlock TextAlignment="Center">Tonspur herunterladen<LineBreak/>(MP3)</TextBlock>
+          </Button>
+          <Button Margin="0,0,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="140" Command="{Binding DownloadVideo}">
+            <TextBlock TextAlignment="Center">Video herunterladen<LineBreak/>(MP4)</TextBlock>
+          </Button>
+        </Grid>
+        
+        <!-- Processing panel. -->
+        <Grid Visibility="{Binding Path=DownloadPanelVisible, Converter={StaticResource BoolToVisConverter}}">
+          <Label Content="{Binding DownloadMessage}" HorizontalAlignment="Left" Margin="8,5,0,0" VerticalAlignment="Top" Width="146" FontWeight="Bold"/>
+          <Label Content="Video-Download:" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top"/>
+          <Label Content="Tonspur extrahieren:" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top">
+            <Label.Resources>
+              <Style TargetType="{x:Type Label}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=DownloadVideoOnly}" Value="True">
+                    <Setter Property="Foreground" Value="DarkGray" />
+                  </DataTrigger>
+                  <DataTrigger Binding="{Binding Path=DownloadVideoOnly}" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Label.Resources>
+          </Label>
+          <Label Content="Audio komprimieren:" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top">
+            <Label.Resources>
+              <Style TargetType="{x:Type Label}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=DownloadVideoOnly}" Value="True">
+                    <Setter Property="Foreground" Value="DarkGray" />
+                  </DataTrigger>
+                  <DataTrigger Binding="{Binding Path=DownloadVideoOnly}" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                  </DataTrigger>                  
+                </Style.Triggers>
+              </Style>
+            </Label.Resources>
+          </Label>
+          <Label Content="Dateien aufräumen:" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top"/>
+          
+          <Label Content="{Binding DownloadProgress}" HorizontalAlignment="Left" Margin="146,34,0,0" VerticalAlignment="Top"/>
+          <Label Content="{Binding ExtractionProgress}" HorizontalAlignment="Left" Margin="146,52,0,0" VerticalAlignment="Top"/>
+          <Label Content="{Binding CompressionProgress}" HorizontalAlignment="Left" Margin="146,70,0,0" VerticalAlignment="Top"/>
+          <Label Content="{Binding ClearUpProgress}" HorizontalAlignment="Left" Margin="146,88,0,0" VerticalAlignment="Top"/>
+          <TextBlock HorizontalAlignment="Left" Margin="16,122,0,0" VerticalAlignment="Top" FontSize="10" FontStyle="Italic" Visibility="Hidden">
+            <Run>Datei gespeichert unter:</Run>
+            <Hyperlink Command="{Binding OpenFile}">videos\blablub.mp4</Hyperlink>
+          </TextBlock>
+          <!-- Content="Datei gespeichert unter &quot;video/blablub.mp4&quot;" -->
+        </Grid>
+
+        <Grid Visibility="{Binding Path=ErrorPanelVisible, Converter={StaticResource BoolToVisConverter}}">
+          <Label Content="Fehler" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Foreground="Red"/>
+          <TextBlock Margin="15,42,15,10" Background="White" Text="{Binding ErrorMessage}" TextWrapping="Wrap" />
+        </Grid>
       </Grid>
-      <Grid Margin="0, 5, 0, 0">
-        <Label Content="Lade Video herunter ..." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="146" FontWeight="Bold"/>
-        <ProgressBar HorizontalAlignment="Left" Height="15" Margin="83,50,0,0" VerticalAlignment="Top" Width="165"/>
-        <Label Content="100 %" HorizontalAlignment="Left" Margin="253,44,0,0" VerticalAlignment="Top"/>
-        <Label Content="Download:" HorizontalAlignment="Left" Margin="11,44,0,0" VerticalAlignment="Top"/>
-        <Label Content="Fertig!" HorizontalAlignment="Left" Margin="11,93,0,0" VerticalAlignment="Top" FontStyle="Italic"/>
-        <TextBlock HorizontalAlignment="Left" Margin="16,122,0,0" VerticalAlignment="Top" FontSize="10" FontStyle="Italic">
-          <Run>Datei gespeichert unter:</Run>
-          <Hyperlink Command="{Binding OpenFile}">videos\blablub.mp4</Hyperlink>
-        </TextBlock>
-        <!-- Content="Datei gespeichert unter &quot;video/blablub.mp4&quot;" -->
-      </Grid>
-    </Grid>
+    </Border>
   </Grid>
 </Window>

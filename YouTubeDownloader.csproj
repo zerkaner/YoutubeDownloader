@@ -95,10 +95,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CopyIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="TextFile1.txt" />
+    <Resource Include="UserInterface\CopyIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
